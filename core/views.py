@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from core.models import Moive
 
-# Create your views here.
+class MoiveList(ListView):
+    model = Moive
