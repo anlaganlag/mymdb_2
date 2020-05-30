@@ -6,4 +6,8 @@ urlpatterns = [
     path('movies',
                 views.MoiveList.as_view(),
                 name='MovieList'),
+
+    path('movies/<int:pk>',
+                views.MoiveDetail.as_view(),
+                name='MovieDetail'),
 ]
