@@ -1,3 +1,64 @@
-from django.test import TestCase
+# from django.test import TestCase
+# from django.test.client import  RequestFactory
+# from django.urls.base import  reverse
 
-# Create your tests here.
+# from core.models import Moive
+# from core.views import MoiveList
+
+# class MovieListPaginationTestCase(TestCase):
+#         ACTIVE_PAGINATION_HTML = """
+#         <li class="page-item active">
+#             <a href="{}?page={ }" class="page-link">{}</a>
+#         """
+
+#         def  setUp(self):
+#             for n in range(15):
+#                 Moive.objects.create(
+#                     title=f'Title {n}',
+#                     year=1990+n,
+#                     runtime =100,
+#                 )
+#         def testFirstPage(self):
+#             movie_list_path = reverse('core:MovieList')
+#             request = RequestFactory().get(path=movie_list_path)
+#             response = MoiveList.as_view()(request)
+#             self.assertEqual(200,response.status_code)
+#             self.assertTrue(response.context_data['is_paginated'])
+#             self.assertInHTML(
+#                     self.ACTIVE_PAGINATION_HTML.format(
+#                         movie_list_path,1,1),
+#                     response.rendered_content)
+
+from django.test import TestCase
+from django.test.client import  RequestFactory
+from django.urls.base import reverse
+from core.views import MovieList
+from core.models import Movie
+
+class MovieListPaginationTestCase( TestCase):
+    ACTIVE_PAGINATION_HTML = """
+    <li class="page-item active">
+      <a href="{}?page={}" class="page-link">{}</a>
+    </li>
+    """
+
+    def setUp(self):
+        for n in range(15):
+            Movie.objects.create(
+                title='Title {}'.format(
+                    n),
+                year=1990 + n,
+                runtime=100,
+            )
+
+    def testFirstPage(self):
+        movie_list_path = reverse( 'core:MovieList')
+        request = RequestFactory().get( path=movie_list_path)
+        response = MovieList.as_view()( request)
+        self.assertEqual( 200, response.status_code)
+        print(response.context_data)
+        self.assertTrue( response.context_data[ 'is_paginated'])
+        self.assertInHTML(
+            self.ACTIVE_PAGINATION_HTML.format(
+                movie_list_path, 1, 1),
+            response.rendered_content)

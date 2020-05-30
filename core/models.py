@@ -1,6 +1,6 @@
 from django.db import models
 
-class Moive(models.Model):
+class Movie(models.Model):
     NOT_RATED = 0
     RATED_G  =1
     RATED_PG  =2

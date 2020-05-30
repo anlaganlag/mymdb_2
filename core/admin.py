@@ -1,3 +1,3 @@
 from django.contrib import admin
-from core.models import Moive
-admin.site.register(Moive)
+from core.models import Movie
+admin.site.register(Movie)

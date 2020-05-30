@@ -4,10 +4,10 @@ from . import views
 app_name = 'core'
 urlpatterns = [
     path('movies',
-                views.MoiveList.as_view(),
+                views.MovieList.as_view(),
                 name='MovieList'),
 
     path('movies/<int:pk>',
-                views.MoiveDetail.as_view(),
+                views.MovieDetail.as_view(),
                 name='MovieDetail'),
 ]

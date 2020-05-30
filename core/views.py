@@ -1,9 +1,10 @@
 from django.views.generic import ListView,DetailView
-from core.models import Moive
+from core.models import Movie
 
-class MoiveList(ListView):
-    model = Moive
+class MovieList(ListView):
+    model = Movie
+    paginate_by =10
 
 
-class MoiveDetail(DetailView):
-    model = Moive
+class MovieDetail(DetailView):
+    model = Movie
