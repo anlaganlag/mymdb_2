@@ -10,4 +10,8 @@ urlpatterns = [
     path('movies/<int:pk>',
                 views.MovieDetail.as_view(),
                 name='MovieDetail'),
+
+  path('person/<int:pk>',
+         views.PersonDetail.as_view(),
+         name='PersonDetail'),
 ]
