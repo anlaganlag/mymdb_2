@@ -7,14 +7,14 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView,UpdateView
 
 from core.forms import VoteForm
-from django.urls import reverse
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django .shortcuts import redirect
+from django.urls import reverse
 from  core.forms import VoteForm
 
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import reverse
+
 class MovieList(ListView):
     model = Movie
     paginate_by =10
@@ -69,22 +69,15 @@ class CreateVote(LoginRequiredMixin,CreateView):
     def get_initial(self):
         initial = super().get_initial()
         initial['user']=self.request.user.id
-        initial['movie']=self.kwargs[
-            'movie_id' ]
-        print("initial",initial)
+        initial['movie']=self.kwargs[ 'movie_id' ]
         return initial
 
     def get_success_url(self):
         movie_id = self.object.movie.id
-        return reverse(
-            'core:MovieDetail',
-        kwargs={
-            'pk':movie_id } )
+        return reverse( 'core:MovieDetail', kwargs={ 'pk':movie_id } )
 
     def render_to_response(self,context,**response_kwargs):
-        print("xxxxxxxxxxxxxxxxxxxxx",context)
-        print(len(context),context.keys())
-        movie_id = context['object'].id
+        movie_id =self.kwargs[ 'movie_id' ]
         movie_detail_url = reverse(
             'core:MovieDetail',
             kwargs={'pk':movie_id})
@@ -96,7 +89,7 @@ class UpdateVote(LoginRequiredMixin,UpdateView):
 
 
     def get_object(self,queryset=None):
-        vote = super.get_object(
+        vote = super().get_object(
             queryset)
         user = self.request.user
         if vote.user != user:
