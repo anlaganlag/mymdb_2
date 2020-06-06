@@ -48,6 +48,7 @@ class Person(models.Model):
 
 class MovieManager(models.Manager):
 
+
     def all_with_related_persons(self):
         qs = self.get_queryset()
         qs = qs.select_related( 'director')
@@ -58,6 +59,14 @@ class MovieManager(models.Manager):
     def all_with_related_persons_and_score(self):
         qs = self.all_with_related_persons()
         qs = qs.annotate(score=Sum('vote__value'))
+        return qs
+
+    def top_movies(self,limit=10):
+        qs = self.get_queryset()
+        qs = qs.annotate(vote_sum=Sum('vote__value'))
+        qs = qs.exclude(vote_sum=None)
+        qs = qs.order_by('-vote_sum')
+        qs = qs[:limit]
         return qs
 
     
